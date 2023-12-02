@@ -3,11 +3,9 @@ namespace AlgoServer.Models.MemberOp
 {
 	public class SignUpRequest
 	{
-		public string phone_number { get; set; }
-        public string password { get; set; }
-        public string account { get; set; }
+        public string name { get; set; }
         public string sex { get; set; }
-        public string age { get; set; }
+        public int age { get; set; }
     }
 }
 

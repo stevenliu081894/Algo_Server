@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using Models.Dto;
 using Serilog;
 using System.Text.Json;
-using AlgoServer.Business;
 using AlgoServer.Internal;
 using AlgoServer.Validates;
 using AlgoServer.Models.MemberOp;
 using AlgoServer.Models;
+using AlgoServer.Business;
 
 namespace AlgoServer.Controllers
 {
@@ -50,6 +50,15 @@ namespace AlgoServer.Controllers
             {
                 return "";
             }
+        }
+
+
+        [HttpPost("signup")]
+        public APIResponse<SignUpResponse> SignUp(SignUpRequest req)
+        {
+
+            SignUpResponse rep = MemberBiz.regiser(req);
+            return APIResponse<SignUpResponse>.Ok(rep);
         }
 
 
@@ -119,30 +128,30 @@ namespace AlgoServer.Controllers
         //    }
         //}
 
-        /// <summary>
-        /// 會員註冊
-        /// </summary>
-        [HttpPost("signup")]
-        public async Task<APIResponse> SignUp(SignUpRequest req)
-        {
-            try
-            {
-                MemberSignUpValidator validator = new MemberSignUpValidator();
-                validator.ValidateAndThrow(req);
+        ///// <summary>
+        ///// 會員註冊
+        ///// </summary>
+        //[HttpPost("signup")]
+        //public async Task<APIResponse> SignUp(SignUpRequest req)
+        //{
+        //    try
+        //    {
+        //        MemberSignUpValidator validator = new MemberSignUpValidator();
+        //        validator.ValidateAndThrow(req);
 
-                // 检查验证码
-                if (!validator.DbAuth(req, GetIP()))
-                {
-                    return APIResponse.Error(900, "other_error");
-                }
-                return APIResponse.Ok(null, "註冊成功");
-            }
-            catch (AppException ex)
-            {
-                Log.Error(ex, ex.Message);
-                return APIResponse.Error(ex.GetStatus(), ex.GetMessage(""));
-            }
-        }
+        //        // 检查验证码
+        //        if (!validator.DbAuth(req, GetIP()))
+        //        {
+        //            return APIResponse.Error(900, "other_error");
+        //        }
+        //        return APIResponse.Ok(null, "註冊成功");
+        //    }
+        //    catch (AppException ex)
+        //    {
+        //        Log.Error(ex, ex.Message);
+        //        return APIResponse.Error(ex.GetStatus(), ex.GetMessage(""));
+        //    }
+        //}
 
         /// <summary>
         /// 登入
@@ -210,26 +219,26 @@ namespace AlgoServer.Controllers
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        [HttpPost("resetpassword")]
-        public APIResponse ResetPassword(ResetPassWordRequest input)
-        {
-            TokenModel tokenModel = GetToken();
-            try
-            {
-                ResetPasswordValidator validator = new ResetPasswordValidator();
-                validator.ValidateAndThrow(input);
-                int pk = validator.DbAuth(tokenModel, input);
+        //[HttpPost("resetpassword")]
+        //public APIResponse ResetPassword(ResetPassWordRequest input)
+        //{
+        //    TokenModel tokenModel = GetToken();
+        //    try
+        //    {
+        //        ResetPasswordValidator validator = new ResetPasswordValidator();
+        //        validator.ValidateAndThrow(input);
+        //        int pk = validator.DbAuth(tokenModel, input);
 
-                //MemberBiz.DbResetPassword(input.newpasswd, tokenModel.member_fk);
+        //        //MemberBiz.DbResetPassword(input.newpasswd, tokenModel.member_fk);
 
-                return APIResponse.Ok(null, "密码修改成功");
-            }
-            catch (AppException ex)
-            {
-                Log.Error(ex, ex.Message);
-                return APIResponse.Error(ex.GetStatus(), ex.GetMessage(GetToken().lang)); // TODO
-            }
-        }
+        //        return APIResponse.Ok(null, "密码修改成功");
+        //    }
+        //    catch (AppException ex)
+        //    {
+        //        Log.Error(ex, ex.Message);
+        //        return APIResponse.Error(ex.GetStatus(), ex.GetMessage(GetToken().lang)); // TODO
+        //    }
+        //}
 
         /// <summary>
         /// 变更手機號碼

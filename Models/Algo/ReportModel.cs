@@ -12,14 +12,14 @@ namespace AlgoServer.Models.Algo
         public float Height { get; set; }
         public float Weight { get; set; }
         public float BMI { get; set; }
-        public string WeightCondition { get; set; } // model output
+        public string? WeightCondition { get; set; } = null; // model output
         public float MAC { get; set; }
         public float CC { get; set; }
         public float MNASF { get; set; }
-        public string NutrientCondition { get; set; } // model output
-        public float REE { get; set; } // model output
-        public float PAL { get; set; } // model output
-        public float TDEE { get; set; } // model output
+        public string? NutrientCondition { get; set; } = null; // model output
+        public float REE { get; set; } = 0; // model output
+        public float PAL { get; set; } = 0; // model output
+        public float TDEE { get; set; } = 0; // model output
         public List<int> BodyCondition { get; set; } // 0: 正常, 1:高血壓, 2:高血脂, 3:高血糖, 4:第一型腎臟病, 5:第一型腎臟病, 6:肌少症
         // 生化紀錄
         public float HBAIC { get; set; }
@@ -33,7 +33,7 @@ namespace AlgoServer.Models.Algo
         public string StomachCondition { get; set; }
         public string EdemaCondition { get; set; } //水腫狀況
         // 營養計畫
-        public NutrientPlanReport NutrientPlan { get; set; }
+        public NutrientPlanReport? NutrientPlan { get; set; } = null;
         //運動能力
         public float SARCF { get; set; }
         public float SOF { get; set; }
@@ -50,8 +50,8 @@ namespace AlgoServer.Models.Algo
         public int StandRaiseKnees { get; set; }
         public string SpecialExerciseSuggestion { get; set; }
         // 運動計畫
-        public ExercisePlanReport ExercisePlan { get; set; }
-        public ExerciseSupplement AfterExerciseSupplement { get; set; }
+        public ExercisePlanReport? ExercisePlan { get; set; } = null;
+        public ExerciseSupplement? AfterExerciseSupplement { get; set; } = null;
     }
 
     public class NutrientPlanReport

@@ -8,15 +8,16 @@ using AlgoServer.Models.Dto;
 using Newtonsoft.Json;
 using AlgoServer.Data.Enums;
 using System.Text.Json;
+using AlgoServer.Internal;
+using AlgoServer.Libs;
 
 namespace AlgoServer.Business
 {
     public class AlgoBiz
     {
-        public static GetReportResponse CalculateReport(GetReportRequest req)
+        public static ReportModel CalculateReport(ReportModel report)
         {
-            //ReportModel report = JsonConvert.DeserializeObject<ReportModel>(req.data);
-            ReportModel report = GetSampleReportModel();
+            //ReportModel report = GetSampleReportModel();
             report.WeightCondition = GetWeightCondition(report);
             report.NutrientCondition = GetNutrientCondition(report);
             report.REE = GetREE(report);
@@ -47,12 +48,7 @@ namespace AlgoServer.Business
 
             report.ExercisePlan = GetExercisePlan(report);
             report.AfterExerciseSupplement = GetAfterExerciseSupplement(report);
-
-
-            return new GetReportResponse
-            {
-                data = System.Text.Json.JsonSerializer.Serialize(report)
-            };
+            return report;
         }
 
         public static ExerciseSupplement GetAfterExerciseSupplement(ReportModel report)

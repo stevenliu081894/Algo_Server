@@ -24,7 +24,7 @@ namespace AlgoServer.Internal
             return _status;
         }
 
-        public string GetMessage(string language)
+        public string GetMessage()
         {
             return _messageKey;
         }

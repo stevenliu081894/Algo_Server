@@ -5,6 +5,7 @@ using AlgoServer.Internal;
 using AlgoServer.Models;
 using AlgoServer.Models.Algo;
 using AlgoServer.Business;
+using NuGet.Protocol.Plugins;
 
 namespace AlgoServer.Controllers
 {
@@ -22,11 +23,18 @@ namespace AlgoServer.Controllers
         }
 
         [HttpPost("getReport")]
-        public APIResponse<GetReportResponse> getReport(GetReportRequest req)
+        public APIResponse<ReportModel> getReport(ReportModel req)
         {
-            GetReportResponse rep = AlgoBiz.CalculateReport(req);
+            try
+            {
+                ReportModel rep = AlgoBiz.CalculateReport(req);
 
-            return APIResponse<GetReportResponse>.Ok(rep);
+                return APIResponse<ReportModel>.Ok(rep);
+            }
+            catch(AppException e)
+            {
+                return APIResponse<ReportModel>.Error(e.GetStatus(), e.GetMessage());
+            }
         }
     }
 }

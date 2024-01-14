@@ -28,7 +28,7 @@ namespace AlgoServer.Business
             float lowCalorieSuggestion = GetCalorieSuggestion(report).Item2;
             float highCalorieSuggestion = GetCalorieSuggestion(report).Item3;
             DietTable dietTable = GetDietTable(report);
-            dietTable.GetRecommendIdx((highCalorieSuggestion + lowCalorieSuggestion)/2, report.sex);
+            dietTable.GetRecommendIdx((highCalorieSuggestion + lowCalorieSuggestion)/2, report.gender);
 
 
             report.NutrientPlan = new NutrientPlanReport
@@ -48,6 +48,16 @@ namespace AlgoServer.Business
 
             report.ExercisePlan = GetExercisePlan(report);
             report.AfterExerciseSupplement = GetAfterExerciseSupplement(report);
+            if (MemberService.Find(report.id) != null)
+            {
+                NutrientReportService.FindPkAfterInsert(new NutrientReportDto
+                {
+                    user_id = report.id,
+                    data = JsonConvert.SerializeObject(report),
+                    measure_time = DateTime.Now
+                });
+            }
+
             return report;
         }
 
@@ -214,43 +224,43 @@ namespace AlgoServer.Business
             List<int> bodyCondition = model.BodyCondition;
             if (bodyCondition.Contains((int)BodyConditionEnum.high_blood_pressure) && bodyCondition.Contains((int)BodyConditionEnum.high_blood_sugar))
             {
-                return new ComplexDiseaseDietTable(model.sex);
+                return new ComplexDiseaseDietTable(model.gender);
             }
             else if (bodyCondition.Contains((int)BodyConditionEnum.high_blood_pressure) && (bodyCondition.Contains((int)BodyConditionEnum.type1_kidney_disease) || bodyCondition.Contains((int)BodyConditionEnum.type2_kidney_disease)))
             {
-                return new ComplexDiseaseDietTable(model.sex);
+                return new ComplexDiseaseDietTable(model.gender);
             }
             else if (bodyCondition.Contains((int)BodyConditionEnum.hyperlipidemia) && bodyCondition.Contains((int)BodyConditionEnum.high_blood_sugar))
             {
-                return new ComplexDiseaseDietTable(model.sex);
+                return new ComplexDiseaseDietTable(model.gender);
             }
             else if (bodyCondition.Contains((int)BodyConditionEnum.high_blood_pressure))
             {
-                return new HighBloodPressureDietTable(model.sex);
+                return new HighBloodPressureDietTable(model.gender);
             }
             else if (bodyCondition.Contains((int)BodyConditionEnum.hyperlipidemia))
             {
-                return new TLCDietTable(model.sex);
+                return new TLCDietTable(model.gender);
             }
             else if (bodyCondition.Contains((int)BodyConditionEnum.high_blood_sugar))
             {
-                return new HighBloodSugarDietTable(model.sex);
+                return new HighBloodSugarDietTable(model.gender);
             }
             else if (bodyCondition.Contains((int)BodyConditionEnum.type1_kidney_disease))
             {
-                return new Type1KidneyDiseaseDietTable(model.sex);
+                return new Type1KidneyDiseaseDietTable(model.gender);
             }
             else if (bodyCondition.Contains((int)BodyConditionEnum.type2_kidney_disease))
             {
-                return new Type2KidneyDiseaseDietTable(model.sex);
+                return new Type2KidneyDiseaseDietTable(model.gender);
             }
             else if (bodyCondition.Contains((int)BodyConditionEnum.sarcopenia))
             {
-                return new SarcopeniaDietTable(model.sex);
+                return new SarcopeniaDietTable(model.gender);
             }
             else
             {
-                return new NormalDietTable(model.sex);
+                return new NormalDietTable(model.gender);
             }
         }
 
@@ -259,43 +269,43 @@ namespace AlgoServer.Business
             List<int> bodyCondition = model.BodyCondition;
             if (bodyCondition.Contains((int)BodyConditionEnum.high_blood_pressure) && bodyCondition.Contains((int)BodyConditionEnum.high_blood_sugar))
             {
-                return new ComplexDiseaseDietTable(model.sex);
+                return new ComplexDiseaseDietTable(model.gender);
             }
             else if (bodyCondition.Contains((int)BodyConditionEnum.high_blood_pressure) && (bodyCondition.Contains((int)BodyConditionEnum.type1_kidney_disease) || bodyCondition.Contains((int)BodyConditionEnum.type2_kidney_disease)))
             {
-                return new ComplexDiseaseDietTable(model.sex);
+                return new ComplexDiseaseDietTable(model.gender);
             }
             else if (bodyCondition.Contains((int)BodyConditionEnum.hyperlipidemia) && bodyCondition.Contains((int)BodyConditionEnum.high_blood_sugar))
             {
-                return new ComplexDiseaseDietTable(model.sex);
+                return new ComplexDiseaseDietTable(model.gender);
             }
             else if (bodyCondition.Contains((int)BodyConditionEnum.high_blood_pressure))
             {
-                return new HighBloodPressureDietTable(model.sex);
+                return new HighBloodPressureDietTable(model.gender);
             }
             else if (bodyCondition.Contains((int)BodyConditionEnum.hyperlipidemia))
             {
-                return new TLCDietTable(model.sex);
+                return new TLCDietTable(model.gender);
             }
             else if (bodyCondition.Contains((int)BodyConditionEnum.high_blood_sugar))
             {
-                return new HighBloodSugarDietTable(model.sex);
+                return new HighBloodSugarDietTable(model.gender);
             }
             else if (bodyCondition.Contains((int)BodyConditionEnum.type1_kidney_disease))
             {
-                return new Type1KidneyDiseaseDietTable(model.sex);
+                return new Type1KidneyDiseaseDietTable(model.gender);
             }
             else if (bodyCondition.Contains((int)BodyConditionEnum.type2_kidney_disease))
             {
-                return new Type2KidneyDiseaseDietTable(model.sex);
+                return new Type2KidneyDiseaseDietTable(model.gender);
             }
             else if (bodyCondition.Contains((int)BodyConditionEnum.sarcopenia))
             {
-                return new SarcopeniaDietTable(model.sex);
+                return new SarcopeniaDietTable(model.gender);
             }
             else
             {
-                return new NormalDietTable(model.sex);
+                return new NormalDietTable(model.gender);
             }
         }
 
@@ -310,6 +320,7 @@ namespace AlgoServer.Business
 
         public static string GetWeightCondition(ReportModel model)
         {
+
             if (model.BMI < 18.5)
             {
                 return GetEnumStrings.ConvertWeightSuggestion((int)WeightSuggestionEnum.underweight);
@@ -344,7 +355,7 @@ namespace AlgoServer.Business
 
         public static float GetREE(ReportModel model)
         {
-            if (model.sex == "W")
+            if (model.gender == "female")
             {
                 return (float)(10 * model.Weight + 6.25 * model.Height - 5 * model.age - 161);
             }
@@ -357,7 +368,7 @@ namespace AlgoServer.Business
         public static float GetPAL(ReportModel model)
         {
             // how to get career
-            if (model.sex == "W")
+            if (model.gender == "female")
             {
                 return (float)(10 * model.Weight + 6.25 * model.Height - 5 * model.age - 161);
             }

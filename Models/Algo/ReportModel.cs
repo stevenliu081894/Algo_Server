@@ -6,8 +6,9 @@ namespace AlgoServer.Models.Algo
     public class ReportModel
     {
         // 基本資料
+        public string id { get; set; } = "";
         public string name { get; set; }
-        public string sex { get; set; } // M or W
+        public string gender { get; set; } // M or W
         public int age { get; set; } 
         public float Height { get; set; }
         public float Weight { get; set; }
@@ -30,8 +31,8 @@ namespace AlgoServer.Models.Algo
         public float UPCR { get; set; }
         public float BUN { get; set; }
         public float CRE { get; set; }
-        public string StomachCondition { get; set; }
-        public string EdemaCondition { get; set; } //水腫狀況
+        public List<int> StomachCondition { get; set; }
+        public string? EdemaCondition { get; set; } = null; //水腫狀況
         // 營養計畫
         public NutrientPlanReport? NutrientPlan { get; set; } = null;
         //運動能力

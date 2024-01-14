@@ -30,9 +30,15 @@ namespace AlgoServer.Controllers
         [HttpPost("signup")]
         public APIResponse<SignUpResponse> SignUp(SignUpRequest req)
         {
-
-            SignUpResponse rep = MemberBiz.regiser(req);
-            return APIResponse<SignUpResponse>.Ok(rep);
+            try
+            {
+                SignUpResponse rep = MemberBiz.regiser(req);
+                return APIResponse<SignUpResponse>.Ok(rep);
+            }
+            catch (AppException e)
+            {
+                return APIResponse<SignUpResponse>.Error(e.GetStatus(), e.GetMessage());
+            }
         }
     }
 }

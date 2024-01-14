@@ -10,14 +10,14 @@ namespace AlgoServer.Services
 	{
         #region Dto
 
-        public static MemberDto Find(int pk)
+        public static MemberDto Find(string id)
         {
-            string sql = @"SELECT * FROM `member` WHERE `pk` = @pk";
+            string sql = @"SELECT * FROM `member` WHERE `id` = @id";
 
             try
             {
                 using var conn = DapperMysql.GetReadConnection();
-                var param = DapperMysql.GetParameters(new { pk });
+                var param = DapperMysql.GetParameters(new { id });
                 return conn.QueryFirstOrDefault<MemberDto>(sql, param);
             }
             catch (Exception ex)
@@ -46,8 +46,8 @@ namespace AlgoServer.Services
         public static int FindPkAfterInsert(MemberDto source)
         {
             string sql = @"INSERT INTO `member` (
-				`name`, `sex`, `age`)
-				VALUES (@name, @sex, @age);
+				`id`, `display_name`, `gender`, `birthday`, `identity_number`, `weight`, `height`)
+				VALUES (@id, @display_name, @gender,  @birthday,  @identity_number,  @weight,  @height);
 
                 select @@IDENTITY;";
             try

@@ -23,6 +23,16 @@ namespace AlgoServer.Data.Enums
         sarcopenia = 6
     }
 
+    public enum StomachConditionEnum
+    {
+        normal = 0,
+        constipate = 1,
+        diarria = 2,
+        abdominal_bloating = 3,
+        nausea = 4,
+        vomit = 5
+    }
+
     public static class GetEnumStrings
     {
         public static string ConvertWeightSuggestion(int status)
@@ -40,13 +50,26 @@ namespace AlgoServer.Data.Enums
         {
             return status switch
             {
-                (int)BodyConditionEnum.high_blood_pressure => "高血壓",
                 (int)BodyConditionEnum.normal => "體重正常",
+                (int)BodyConditionEnum.high_blood_pressure => "高血壓",
                 (int)BodyConditionEnum.hyperlipidemia => "高血脂",
                 (int)BodyConditionEnum.high_blood_sugar => "高血糖",
                 (int)BodyConditionEnum.type1_kidney_disease => "第一期腎臟病",
                 (int)BodyConditionEnum.type2_kidney_disease => "第二期腎臟病",
                 (int)BodyConditionEnum.sarcopenia => "肌少症",
+            };
+        }
+
+        public static string ConvertStomachCondition(int status)
+        {
+            return status switch
+            {
+                (int)StomachConditionEnum.normal => "正常",
+                (int)StomachConditionEnum.constipate => "便秘",
+                (int)StomachConditionEnum.diarria => "腹瀉",
+                (int)StomachConditionEnum.abdominal_bloating => "腹脹",
+                (int)StomachConditionEnum.nausea => "噁心",
+                (int)StomachConditionEnum.vomit => "嘔吐"
             };
         }
     }

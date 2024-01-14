@@ -28,9 +28,9 @@ namespace AlgoServer.Models.Algo
             specialHealthSuggestion = "";
         }
 
-        public void GetRecommendIdx(float suggest_calorie, string sex)
+        public void GetRecommendIdx(float suggest_calorie, string gender)
         {
-            if (sex == "M") {
+            if (gender == "male") {
                 if (suggest_calorie > 1500 && suggest_calorie < 1700)
                 {
                     recommendIdx = 0;
@@ -65,9 +65,9 @@ namespace AlgoServer.Models.Algo
 
     public class NormalDietTable : DietTable
     {
-        public NormalDietTable(string sex)
+        public NormalDietTable(string gender)
         {
-            if (sex == "M")
+            if (gender == "male")
             {
                 WholeGrain = new List<string> { "10-12", "12", "12-14" };
                 Milk = new List<string> { "1.5", "1.5", "1.5" };
@@ -92,7 +92,7 @@ namespace AlgoServer.Models.Algo
     {
         public HighBloodPressureDietTable(string sex)
         {
-            if (sex == "M")
+            if (sex == "female")
             {
                 WholeGrain = new List<string> { "6-8", "8", "8-10" };
                 Milk = new List<string> { "2-3", "2-3", "2-3" };
@@ -117,7 +117,7 @@ namespace AlgoServer.Models.Algo
     {
         public TLCDietTable(string sex)
         {
-            if (sex == "M")
+            if (sex == "male")
             {
                 WholeGrain = new List<string> { "6-8", "8", "8-10" };
                 Milk = new List<string> { "2-3", "2-3", "2-3" };
@@ -142,7 +142,7 @@ namespace AlgoServer.Models.Algo
     {
         public ComplexDiseaseDietTable(string sex)
         {
-            if (sex == "M")
+            if (sex == "male")
             {
                 WholeGrain = new List<string> { "6-8", "8", "8-10" };
                 Milk = new List<string> { "2-3", "2-3", "2-3" };
@@ -167,7 +167,7 @@ namespace AlgoServer.Models.Algo
     {
         public HighBloodSugarDietTable(string sex)
         {
-            if (sex == "M")
+            if (sex == "male")
             {
                 WholeGrain = new List<string> { "6-8", "8", "8-10" };
                 Milk = new List<string> { "2-3", "2-3", "2-3" };
@@ -192,7 +192,7 @@ namespace AlgoServer.Models.Algo
     {
         public Type1KidneyDiseaseDietTable(string sex)
         {
-            if (sex == "M")
+            if (sex == "male")
             {
                 WholeGrain = new List<string> { "6-8", "8", "8-10" };
                 Milk = new List<string> { "2-3", "2-3", "2-3" };
@@ -217,7 +217,7 @@ namespace AlgoServer.Models.Algo
     {
         public Type2KidneyDiseaseDietTable(string sex)
         {
-            if (sex == "M")
+            if (sex == "male")
             {
                 WholeGrain = new List<string> { "6-8", "8", "8-10" };
                 Milk = new List<string> { "2-3", "2-3", "2-3" };
@@ -242,7 +242,7 @@ namespace AlgoServer.Models.Algo
     {
         public SarcopeniaDietTable(string sex)
         {
-            if (sex == "M")
+            if (sex == "male")
             {
                 WholeGrain = new List<string> { "6-8", "8", "8-10" };
                 Milk = new List<string> { "2-3", "2-3", "2-3" };

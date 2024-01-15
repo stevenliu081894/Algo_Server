@@ -32,7 +32,7 @@ namespace AlgoServer.Models.Algo
         public float BUN { get; set; }
         public float CRE { get; set; }
         public List<int> StomachCondition { get; set; }
-        public string? EdemaCondition { get; set; } = null; //水腫狀況
+        public EdemaCondition? EdemaCondition { get; set; } = null; //水腫狀況
         // 營養計畫
         public NutrientPlanReport? NutrientPlan { get; set; } = null;
         //運動能力
@@ -102,6 +102,13 @@ namespace AlgoServer.Models.Algo
         public string Protein { get; set; }
         //備註
         public string Notice { get; set; }
+    }
+
+    public class EdemaCondition
+    {
+        public bool IsEdema { get; set; }
+        public string? Part { get; set; }
+        public string? EdemaDegree { get; set; }
     }
 }
 

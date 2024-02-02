@@ -15,6 +15,8 @@ namespace AlgoServer.Models.Dto
         public string frequency { get; set; }
         //強度(THR)
         public int strength { get; set; }
+        //MoveV
+        public string moveV { get; set; }
     }
 }
 

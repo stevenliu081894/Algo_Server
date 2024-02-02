@@ -91,6 +91,8 @@ namespace AlgoServer.Models.Algo
         public string Frequency { get; set; }
         //強度(THR)
         public string Strength { get; set; }
+        //MoveV name
+        public string MoveV { get; set; }
     }
     public class ExerciseSupplement
     {

@@ -10,6 +10,7 @@ using AlgoServer.Data.Enums;
 using System.Text.Json;
 using AlgoServer.Internal;
 using AlgoServer.Libs;
+using static AlgoServer.Models.Algo.TLCDietTable;
 
 namespace AlgoServer.Business
 {
@@ -138,11 +139,12 @@ namespace AlgoServer.Business
                     Time = suggestExerciseItem.time,
                     Calories = $"{report.Weight * (float)suggestExerciseItem.calories_per_weight} (kcal) ",
                     Frequency = suggestExerciseItem.frequency,
-                    Strength =  GetExerciseStrengthStr(report)
+                    Strength =  GetExerciseStrengthStr(report),
+                    MoveV = GetMoveV(suggestExerciseItem.name)
                 };
             }).ToList();
 
-            string notice = getExerciseNotice(report);
+            string notice = GetExerciseNotice(report);
 
             return new ExercisePlanReport
             {
@@ -153,7 +155,7 @@ namespace AlgoServer.Business
 
         }
 
-        public static string getExerciseNotice(ReportModel model)
+        public static string GetExerciseNotice(ReportModel model)
         {
             string notice = "";
             if (model.BodyCondition.Contains(1))
@@ -165,8 +167,26 @@ namespace AlgoServer.Business
                 notice.Concat("餐後 1-2 小時運動 \n 每週至少運動 5 次 \n 需注意是否有血糖過低現象");
             }
             return notice;
+        }
 
+        public static string GetMoveV(string exercise_type)
+        {
+            if (exercise_type == "有氧運動")
+            {
+                return "燃脂, 有氧, 高強度間歇, 拳擊";
+            }
 
+            if (exercise_type == "肌力訓練")
+            {
+                return "肌力訓練";
+            }
+
+            if (exercise_type == "全身性伸展")
+            {
+                return "瑜珈";
+            }
+
+            return "無對應項目";
 
         }
 

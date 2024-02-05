@@ -1,21 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using AlgoServer.Internal;
 using AlgoServer.Models;
+using AlgoServer.Business;
 
 
 namespace AlgoServer.Controllers
 {
     public class UserInfoController : BaseAPIController
     {
-        [HttpPost("getUserInfo")]
-        public APIResponse<GetUserInfoResponse> getUserInfo(GetUserInfoRequest req)
+        [HttpPost("uploadUserInfo")]
+        public APIResponse<UploadUserInfoResponse> UploadUserInfo(UploadUserInfoRequest req)
         {
 
-            GetUserInfoResponse rep = new GetUserInfoResponse
-            {
-                test = req.test + 1
-            };
-            return APIResponse<GetUserInfoResponse>.Ok(rep);
+            UserInfoBiz.UploadUserInfo(req);
+
+            UploadUserInfoResponse rep = new UploadUserInfoResponse();
+
+            return APIResponse<UploadUserInfoResponse>.Ok(rep);
         }
     }
 }

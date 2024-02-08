@@ -12,6 +12,7 @@ namespace Models.Dto
         public string identity_number { get; set; } = "";
         public decimal height { get; set; } = 0;
         public decimal weight { get; set; } = 0;
+        public DateTime register_time { get; set; }
         public string email { get; set; } = "";
         public string phone { get; set; } = "";
     }

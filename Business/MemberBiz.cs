@@ -1,15 +1,17 @@
 ﻿using System;
+using System.Text;
 using AlgoServer.Internal;
 using AlgoServer.Libs;
 using AlgoServer.Models.MemberOp;
 using AlgoServer.Services;
 using Models.Dto;
+using Newtonsoft.Json;
 
 namespace AlgoServer.Business
 {
 	public class MemberBiz
 	{
-        public static SignUpResponse regiser(SignUpRequest req)
+        public static async Task<SignUpResponse> regiser(SignUpRequest req)
 		{
 
 			MemberDto memberDto = new MemberDto
@@ -20,8 +22,9 @@ namespace AlgoServer.Business
 				gender = req.gender,
 				birthday = req.birthday,
 				weight = req.weight,
-				height = req.height
-			};
+				height = req.height,
+				register_time = DateTime.Now
+            };
 			if (MemberService.Find(memberDto.id) != null)
 			{
                 LogLib.Log("Member Already Existed");
@@ -29,6 +32,25 @@ namespace AlgoServer.Business
             }
 
 			int pk = MemberService.FindPkAfterInsert(memberDto);
+
+
+			MoveVSignUpRequest moveVReq = new MoveVSignUpRequest
+			{
+				login_type = 1,
+				FitGame_member_id = req.id,
+				FitGame_member_type = "JUBO",
+				name = req.display_name,
+				password = req.birthday.Replace("-", ""),
+                account = req.identity_number
+            };
+
+
+            string moveVSignUpUrl = "https://release.hihealth.com.tw/api/users/register";
+            HttpClient client = new HttpClient();
+            string requestData = JsonConvert.SerializeObject(moveVReq);
+            StringContent content = new StringContent(requestData, Encoding.UTF8, "application/json");
+
+            var response = await client.PostAsync(moveVSignUpUrl, content);
 
 			return new SignUpResponse
 			{

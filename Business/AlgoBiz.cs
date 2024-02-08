@@ -11,18 +11,20 @@ using System.Text.Json;
 using AlgoServer.Internal;
 using AlgoServer.Libs;
 using static AlgoServer.Models.Algo.TLCDietTable;
+using Org.BouncyCastle.Ocsp;
+using Microsoft.DotNet.MSIdentity.Shared;
 
 namespace AlgoServer.Business
 {
     public class AlgoBiz
     {
-        public static ReportModel CalculateReport(ReportModel report)
+        public static async Task<ReportModel> CalculateReport(ReportModel report)
         {
             //ReportModel report = GetSampleReportModel();
             report.WeightCondition = GetWeightCondition(report);
             report.NutrientCondition = GetNutrientCondition(report);
             report.REE = GetREE(report);
-            report.PAL = GetPAL(report); // how to get career
+            report.PAL = GetPAL(report); 
             report.TDEE = report.REE * report.PAL;
 
             string calorieSuggestion = GetCalorieSuggestion(report).Item1;
@@ -47,7 +49,7 @@ namespace AlgoServer.Business
                 SpecialHealthSuggestion = dietTable.specialHealthSuggestion,
             };
 
-            report.ExercisePlan = GetExercisePlan(report);
+            report.ExercisePlan = await GetExercisePlan(report);
             report.AfterExerciseSupplement = GetAfterExerciseSupplement(report);
             if (MemberService.Find(report.id) != null)
             {
@@ -113,7 +115,7 @@ namespace AlgoServer.Business
             return intensity;
         }
 
-        public static ExercisePlanReport GetExercisePlan(ReportModel report)
+        public static async Task<ExercisePlanReport> GetExercisePlan(ReportModel report)
         {
 
 
@@ -130,8 +132,10 @@ namespace AlgoServer.Business
             }
 
 
-            List<ExerciseItemView> exerciseItemViews = suggestExerciseItems.Select(suggestExerciseItem =>
+            ExerciseItemView[] exerciseItemViewList = await Task.WhenAll(suggestExerciseItems.Select(async suggestExerciseItem =>
             {
+                string id = await GetVideoUrl(suggestExerciseItem.name);
+
                 return new ExerciseItemView
                 {
                     Name = suggestExerciseItem.name,
@@ -139,10 +143,13 @@ namespace AlgoServer.Business
                     Time = suggestExerciseItem.time,
                     Calories = $"{report.Weight * (float)suggestExerciseItem.calories_per_weight} (kcal) ",
                     Frequency = suggestExerciseItem.frequency,
-                    Strength =  GetExerciseStrengthStr(report),
-                    MoveV = GetMoveV(suggestExerciseItem.name)
+                    Strength = GetExerciseStrengthStr(report),
+                    MoveV = GetMoveV(suggestExerciseItem.name),
+                    VideoUrl = "movev://open?video_id=" + id
                 };
-            }).ToList();
+            }));
+
+            List<ExerciseItemView> exerciseItemViews = exerciseItemViewList.ToList();
 
             string notice = GetExerciseNotice(report);
 
@@ -153,6 +160,33 @@ namespace AlgoServer.Business
             };
 
 
+        }
+
+        public static async Task<string> GetVideoUrl(string exerciseName)
+        {
+            int exercise_id = GetEnumStrings.ConvertExerciseNameToId(exerciseName);
+            GetVideoUrlRequest getVideoUrlReq = new GetVideoUrlRequest
+            {
+                class_id = exercise_id
+            };
+
+
+            string moveVGetVideoUrl = "https://release.hihealth.com.tw/api/MoveV/showPlanFromTag";
+            HttpClient client = new HttpClient();
+            string requestData = JsonConvert.SerializeObject(getVideoUrlReq);
+            StringContent content = new StringContent(requestData, Encoding.UTF8, "application/json");
+
+            var response = await client.PostAsync(moveVGetVideoUrl, content);
+            if (response.IsSuccessStatusCode)
+            {
+                List<GetVideoUrlResponse> rep = JsonConvert.DeserializeObject<List<GetVideoUrlResponse>>(response.ToString());
+                return rep[0].id;
+            }
+            else
+            {
+                return "408";
+            }
+           
         }
 
         public static string GetExerciseNotice(ReportModel model)
@@ -387,14 +421,31 @@ namespace AlgoServer.Business
 
         public static float GetPAL(ReportModel model)
         {
-            // how to get career
-            if (model.gender == "female")
+            decimal avgOneDaySteps = UserInfoService.FindPastOneWeekSteps(model.id) * 24;
+
+            if (avgOneDaySteps < 2500)
             {
-                return (float)(10 * model.Weight + 6.25 * model.Height - 5 * model.age - 161);
+                return 1.2f;
+            }
+            else if (avgOneDaySteps >= 2500 && avgOneDaySteps < 5000)
+            {
+                return 1.45f;
+            }
+            else if (avgOneDaySteps >= 5000 && avgOneDaySteps < 7500)
+            {
+                return 1.65f;
+            }
+            else if (avgOneDaySteps >= 7500 && avgOneDaySteps < 10000)
+            {
+                return 1.85f;
+            }
+            else if (avgOneDaySteps >= 10000 && avgOneDaySteps < 12500)
+            {
+                return 2.2f;
             }
             else
             {
-                return (float)(10 * model.Weight + 6.25 * model.Height - 5 * model.age + 5);
+                return 2.5f;
             }
         }
 

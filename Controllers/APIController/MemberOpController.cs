@@ -28,11 +28,11 @@ namespace AlgoServer.Controllers
 
 
         [HttpPost("signup")]
-        public APIResponse<SignUpResponse> SignUp(SignUpRequest req)
+        public async Task<APIResponse<SignUpResponse>> SignUp(SignUpRequest req)
         {
             try
             {
-                SignUpResponse rep = MemberBiz.regiser(req);
+                SignUpResponse rep = await MemberBiz.regiser(req);
                 return APIResponse<SignUpResponse>.Ok(rep);
             }
             catch (AppException e)

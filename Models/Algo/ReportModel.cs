@@ -93,6 +93,8 @@ namespace AlgoServer.Models.Algo
         public string Strength { get; set; }
         //MoveV name
         public string MoveV { get; set; }
+        //MoveV Link
+        public string VideoUrl { get; set; }
     }
     public class ExerciseSupplement
     {

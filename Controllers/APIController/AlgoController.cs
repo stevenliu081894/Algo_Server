@@ -23,11 +23,11 @@ namespace AlgoServer.Controllers
         }
 
         [HttpPost("getReport")]
-        public APIResponse<ReportModel> getReport(ReportModel req)
+        public async Task<APIResponse<ReportModel>> getReport(ReportModel req)
         {
             try
             {
-                ReportModel rep = AlgoBiz.CalculateReport(req);
+                ReportModel rep = await AlgoBiz.CalculateReport(req);
 
                 return APIResponse<ReportModel>.Ok(rep);
             }

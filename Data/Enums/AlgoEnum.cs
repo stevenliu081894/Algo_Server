@@ -33,6 +33,15 @@ namespace AlgoServer.Data.Enums
         vomit = 5
     }
 
+    public enum ExerciseNameEnum
+    {
+        weight_training = 2,
+        stretch = 3,
+        cardio = 4
+    }
+
+
+
     public static class GetEnumStrings
     {
         public static string ConvertWeightSuggestion(int status)
@@ -70,6 +79,36 @@ namespace AlgoServer.Data.Enums
                 (int)StomachConditionEnum.abdominal_bloating => "腹脹",
                 (int)StomachConditionEnum.nausea => "噁心",
                 (int)StomachConditionEnum.vomit => "嘔吐"
+            };
+        }
+
+        public static string ConvertExerciseName(int status)
+        {
+            return status switch
+            {
+                (int)ExerciseNameEnum.weight_training => "肌力訓練",
+                (int)ExerciseNameEnum.stretch => "全身性伸展",
+                (int)ExerciseNameEnum.cardio => "有氧運動",
+            };
+        }
+
+        public static string ConvertMoveVName(int status)
+        {
+            return status switch
+            {
+                (int)ExerciseNameEnum.weight_training => "肌力訓練",
+                (int)ExerciseNameEnum.stretch => "瑜珈",
+                (int)ExerciseNameEnum.cardio => "燃脂有氧高間歇拳擊",
+            };
+        }
+
+        public static int ConvertExerciseNameToId(string exercise_name)
+        {
+            return exercise_name switch
+            {
+                "肌力訓練" => (int)ExerciseNameEnum.weight_training,
+                "全身性伸展" => (int)ExerciseNameEnum.stretch,
+                "有氧運動" => (int)ExerciseNameEnum.cardio
             };
         }
     }

@@ -23,34 +23,47 @@ namespace AlgoServer.Business
 				birthday = req.birthday,
 				weight = req.weight,
 				height = req.height,
-				register_time = DateTime.Now
+				register_time = DateTime.Now,
+				email = req.email,
+				phone = req.phone
             };
-			if (MemberService.Find(memberDto.id) != null)
+
+
+            if (MemberService.Find(memberDto.id) != null)
 			{
                 LogLib.Log("Member Already Existed");
                 throw new AppException(1040, "Member Already Existed");
             }
 
-			int pk = MemberService.FindPkAfterInsert(memberDto);
+			bool moveVRegister = true;
+            if (MemberService.FindByPhone(memberDto.phone) != null)
+            {
+				moveVRegister = false;
+            }
+
+            int pk = MemberService.FindPkAfterInsert(memberDto);
 
 
-			MoveVSignUpRequest moveVReq = new MoveVSignUpRequest
+			if (moveVRegister)
 			{
-				login_type = 1,
-				FitGame_member_id = req.id,
-				FitGame_member_type = "JUBO",
-				name = req.display_name,
-				password = req.birthday.Replace("-", ""),
-                account = req.identity_number
-            };
+                MoveVSignUpRequest moveVReq = new MoveVSignUpRequest
+                {
+                    login_type = 1,
+                    FitGame_member_id = req.id,
+                    FitGame_member_type = "JUBO",
+                    name = req.display_name,
+                    password = req.phone.Substring(req.phone.Length - 6),
+                    account = req.phone
+                };
 
 
-            string moveVSignUpUrl = "https://release.hihealth.com.tw/api/users/register";
-            HttpClient client = new HttpClient();
-            string requestData = JsonConvert.SerializeObject(moveVReq);
-            StringContent content = new StringContent(requestData, Encoding.UTF8, "application/json");
+                string moveVSignUpUrl = "https://release.hihealth.com.tw/api/users/register";
+                HttpClient client = new HttpClient();
+                string requestData = JsonConvert.SerializeObject(moveVReq);
+                StringContent content = new StringContent(requestData, Encoding.UTF8, "application/json");
 
-            var response = await client.PostAsync(moveVSignUpUrl, content);
+                var response = await client.PostAsync(moveVSignUpUrl, content);
+            }
 
 			return new SignUpResponse
 			{

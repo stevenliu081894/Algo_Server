@@ -27,6 +27,24 @@ namespace AlgoServer.Services
             }
         }
 
+
+        public static MemberDto FindByPhone(string phone)
+        {
+            string sql = @"SELECT * FROM `member` WHERE `phone` = @phone";
+
+            try
+            {
+                using var conn = DapperMysql.GetReadConnection();
+                var param = DapperMysql.GetParameters(new { phone });
+                return conn.QueryFirstOrDefault<MemberDto>(sql, param);
+            }
+            catch (Exception ex)
+            {
+                LogLib.Log("[MemberService][FindByPhone]" + ex.Message);
+                return null;
+            }
+        }
+
         public static List<MemberDto> FindAll()
         {
             string sql = @"SELECT * FROM `member`";
@@ -46,8 +64,8 @@ namespace AlgoServer.Services
         public static int FindPkAfterInsert(MemberDto source)
         {
             string sql = @"INSERT INTO `member` (
-				`id`, `display_name`, `gender`, `birthday`, `identity_number`, `weight`, `height`, `register_time`)
-				VALUES (@id, @display_name, @gender,  @birthday,  @identity_number,  @weight,  @height, @register_time);
+				`id`, `display_name`, `gender`, `birthday`, `identity_number`, `weight`, `height`, `email`, `phone`, `register_time`)
+				VALUES (@id, @display_name, @gender,  @birthday,  @identity_number,  @weight,  @height, @email, @phone, @register_time);
 
                 select @@IDENTITY;";
             try

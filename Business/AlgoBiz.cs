@@ -144,7 +144,7 @@ namespace AlgoServer.Business
                     Calories = $"{report.Weight * (float)suggestExerciseItem.calories_per_weight} (kcal) ",
                     Frequency = suggestExerciseItem.frequency,
                     Strength = GetExerciseStrengthStr(report),
-                    MoveV = GetMoveV(suggestExerciseItem.name),
+                    MoveV = GetMoveV(suggestExerciseItem.type),
                     VideoUrl = "movev://open?video_id=" + id
                 };
             }));
@@ -162,9 +162,9 @@ namespace AlgoServer.Business
 
         }
 
-        public static async Task<string> GetVideoUrl(string exerciseName)
+        public static async Task<string> GetVideoUrl(string exerciseType)
         {
-            int exercise_id = GetEnumStrings.ConvertExerciseNameToId(exerciseName);
+            int exercise_id = GetEnumStrings.ConvertExerciseNameToId(exerciseType);
             GetVideoUrlRequest getVideoUrlReq = new GetVideoUrlRequest
             {
                 class_id = exercise_id

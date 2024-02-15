@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace AlgoServer.Models
+namespace AlgoServer.Models.UserInfo
 {
     public class BloodPressure
     {

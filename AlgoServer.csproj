@@ -31,6 +31,7 @@
     <None Remove="Validate\" />
     <None Remove="Business\" />
     <None Remove="Models\Algo\" />
+    <None Remove="Models\UserInfo\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -59,6 +60,7 @@
     <Folder Include="Validate\" />
     <Folder Include="Business\" />
     <Folder Include="Models\Algo\" />
+    <Folder Include="Models\UserInfo\" />
   </ItemGroup>
 
   <ItemGroup>

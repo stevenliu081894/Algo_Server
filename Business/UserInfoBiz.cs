@@ -1,5 +1,5 @@
 ﻿using System;
-using AlgoServer.Models;
+using AlgoServer.Models.UserInfo;
 using Models.Dto;
 using AlgoServer.Services;
 using AlgoServer.Models.Dto;
@@ -81,6 +81,20 @@ namespace AlgoServer.Business
             UserInfoService.FindPkAfterInsertSleep(sleepInfoDto);
             UserInfoService.FindPkAfterInsertHrv(hrvInfoDto);
             UserInfoService.FindPkAfterInsertBloodSugar(bloodSugarInfoDto);
+        }
+
+        public static void UploadExerciseInfo(UploadExerciseInfoRequest req)
+        {
+            UserExerciseInfoBackUpDto userExerciseInfoBackUpDto = new UserExerciseInfoBackUpDto
+            {
+                user_id = req.user_id,
+                start_time = req.start_time,
+                average_heart_beat = req.average_heart_beat,
+                exercise_name = req.exercise_name,
+                exercise_type = req.exercise_type,
+                period = req.period
+            };
+            UserInfoService.FindPkAfterUserExerciseInfoBackup(userExerciseInfoBackUpDto);
         }
     }
 }

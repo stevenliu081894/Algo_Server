@@ -1,5 +1,5 @@
 ﻿using System;
-namespace AlgoServer.Models
+namespace AlgoServer.Models.UserInfo
 {
 	public class UploadUserInfoResponse
     {

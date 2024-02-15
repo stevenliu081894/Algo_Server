@@ -122,6 +122,25 @@ namespace AlgoServer.Services
                 throw new AppException(1030, "write_db_exception");
             }
         }
+
+        public static int FindPkAfterUserExerciseInfoBackup(UserExerciseInfoBackUpDto userExerciseInfoBackUpDto)
+        {
+            string sql = @"INSERT INTO `user_exercise_info_backup` (
+				`user_id`, `exercise_name`, `exercise_type`, `start_time`, `period`, `average_heart_beat`)
+				VALUES (@user_id,  @exercise_name,  @exercise_type,  @start_time,  @period, @average_heart_beat);
+
+                select @@IDENTITY;";
+            try
+            {
+                using var conn = DapperMysql.GetWriteConntion();
+                return conn.ExecuteScalar<int>(sql, userExerciseInfoBackUpDto);
+            }
+            catch (Exception ex)
+            {
+                LogLib.Log("[UserInfoService][FindPkAfterUserExerciseInfoBackup]" + ex.Message);
+                throw new AppException(1030, "write_db_exception");
+            }
+        }
         #endregion
     }
 }

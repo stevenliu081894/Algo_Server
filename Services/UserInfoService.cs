@@ -14,8 +14,8 @@ namespace AlgoServer.Services
         public static int FindPkAfterInsert(BodyInfoDto bodyInfoDto)
         {
             string sql = @"INSERT INTO `body_info` (
-				`member_fk`, `body_temperature`, `pulse_rate`, `blood_pressure_systolic`, `blood_pressure_diatolic`, `measure_time`, `blood_oxygen`,`body_weight`, `body_fat`,`relieve_stress`,  `cardiopulmonary_level`, `note`)
-				VALUES (@member_fk, @body_temperature,  @pulse_rate,  @blood_pressure_systolic, @blood_pressure_diatolic, @measure_time, @blood_oxygen, @body_weight, @body_fat, @relieve_stress, @cardiopulmonary_level, @note);
+				`member_fk`, `body_temperature`, `pulse_rate`, `blood_pressure_systolic`, `blood_pressure_diastolic`, `measure_time`, `blood_oxygen`,`body_weight`, `body_fat`,`relieve_stress`,  `cardiopulmonary_level`, `note`)
+				VALUES (@member_fk, @body_temperature,  @pulse_rate,  @blood_pressure_systolic, @blood_pressure_diastolic, @measure_time, @blood_oxygen, @body_weight, @body_fat, @relieve_stress, @cardiopulmonary_level, @note);
 
                 select @@IDENTITY;";
 

@@ -82,19 +82,19 @@ namespace AlgoServer.Models.UserInfo
     {
         public string id { get; set; }
         public DateTime measurement_time { get; set; }
-        public BodyTemperature body_temperature { get; set; }
-        public PulseRate pulse_rate { get; set; }
-        public BloodPressure blood_pressure { get; set; }
-        public BloodOxygen blood_oxygen { get; set; }
-        public BodyWeight body_weight { get; set; }
-        public BodyFat body_fat { get; set; }
-        public BloodSugar blood_sugar { get; set; }
-        public Activity activity { get; set; }
-        public RelieveStress relieve_stress { get; set; }
-        public CardiopulmonaryLevel cardiopulmonary_level { get; set; }
-        public Hrv hrv { get; set; }
-        public Sleep sleep { get; set; }
-        public string note { get; set; }
+        public BodyTemperature? body_temperature { get; set; }
+        public PulseRate? pulse_rate { get; set; }
+        public BloodPressure? blood_pressure { get; set; }
+        public BloodOxygen? blood_oxygen { get; set; }
+        public BodyWeight? body_weight { get; set; }
+        public BodyFat? body_fat { get; set; }
+        public BloodSugar? blood_sugar { get; set; }
+        public Activity? activity { get; set; }
+        public RelieveStress? relieve_stress { get; set; }
+        public CardiopulmonaryLevel? cardiopulmonary_level { get; set; }
+        public Hrv? hrv { get; set; }
+        public Sleep? sleep { get; set; }
+        public string note { get; set; } = "";
     }
 
     public class UploadUserInfoRequest

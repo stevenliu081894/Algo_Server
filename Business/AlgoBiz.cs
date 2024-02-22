@@ -123,7 +123,7 @@ namespace AlgoServer.Business
 
             List<ExerciseItemDto> exerciseItemDto =  ExerciseItemService.FindByStength(intensity);
 
-            var groupExerciseItem = exerciseItemDto.GroupBy(item => item.name);
+            var groupExerciseItem = exerciseItemDto.GroupBy(item => item.type);
             List<ExerciseItemDto> suggestExerciseItems = new List<ExerciseItemDto>();
 
             foreach (var group in groupExerciseItem)
@@ -134,7 +134,7 @@ namespace AlgoServer.Business
 
             ExerciseItemView[] exerciseItemViewList = await Task.WhenAll(suggestExerciseItems.Select(async suggestExerciseItem =>
             {
-                string id = await GetVideoUrl(suggestExerciseItem.name);
+                string id = await GetVideoUrl(suggestExerciseItem.type);
 
                 return new ExerciseItemView
                 {

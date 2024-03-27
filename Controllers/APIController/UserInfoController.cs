@@ -11,23 +11,35 @@ namespace AlgoServer.Controllers
         [HttpPost("uploadUserInfo")]
         public APIResponse<UploadUserInfoResponse> UploadUserInfo(UploadUserInfoRequest req)
         {
+            try
+            {
+                UserInfoBiz.UploadUserInfo(req);
 
-            UserInfoBiz.UploadUserInfo(req);
+                UploadUserInfoResponse rep = new UploadUserInfoResponse();
 
-            UploadUserInfoResponse rep = new UploadUserInfoResponse();
-
-            return APIResponse<UploadUserInfoResponse>.Ok(rep);
+                return APIResponse<UploadUserInfoResponse>.Ok(rep);
+            }
+            catch (AppException e)
+            {
+                return APIResponse<UploadUserInfoResponse>.Error(e.GetStatus(), e.GetMessage());
+            }
         }
 
         [HttpPost("uploadExerciseInfo")]
         public APIResponse<UploadExerciseInfoResponse> UploadExerciseInfo(UploadExerciseInfoRequest req)
         {
+            try
+            {
+                UserInfoBiz.UploadExerciseInfo(req);
 
-            UserInfoBiz.UploadExerciseInfo(req);
+                UploadExerciseInfoResponse rep = new UploadExerciseInfoResponse();
 
-            UploadExerciseInfoResponse rep = new UploadExerciseInfoResponse();
-
-            return APIResponse<UploadExerciseInfoResponse>.Ok(rep);
+                return APIResponse<UploadExerciseInfoResponse>.Ok(rep);
+            }
+            catch (AppException e)
+            {
+                return APIResponse<UploadExerciseInfoResponse>.Error(e.GetStatus(), e.GetMessage());
+            }
         }
     }
 }

@@ -2,6 +2,7 @@
 using AlgoServer.Internal;
 using AlgoServer.Models.UserInfo;
 using AlgoServer.Business;
+using AlgoServer.Models.Dto;
 
 
 namespace AlgoServer.Controllers
@@ -39,6 +40,21 @@ namespace AlgoServer.Controllers
             catch (AppException e)
             {
                 return APIResponse<UploadExerciseInfoResponse>.Error(e.GetStatus(), e.GetMessage());
+            }
+        }
+
+        [HttpPost("getExerciseInfo")]
+        public APIResponse<List<UserExerciseInfoBackUpDto>> GetExerciseInfo(GetExerciseInfoRequest req)
+        {
+            try
+            {
+                GetExerciseInfoResponse rep = UserInfoBiz.GetExerciseInfo(req);
+
+                return APIResponse<List<UserExerciseInfoBackUpDto>>.Ok(rep.userExerciseInfos);
+            }
+            catch (AppException e)
+            {
+                return APIResponse<List<UserExerciseInfoBackUpDto>>.Error(e.GetStatus(), e.GetMessage());
             }
         }
     }

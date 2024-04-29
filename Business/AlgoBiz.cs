@@ -176,10 +176,12 @@ namespace AlgoServer.Business
             string requestData = JsonConvert.SerializeObject(getVideoUrlReq);
             StringContent content = new StringContent(requestData, Encoding.UTF8, "application/json");
 
-            var response = await client.PostAsync(moveVGetVideoUrl, content);
+            var response = await client.PostAsync(moveVGetVideoUrl, content);          
+
             if (response.IsSuccessStatusCode)
             {
-                List<GetVideoUrlResponse> rep = JsonConvert.DeserializeObject<List<GetVideoUrlResponse>>(response.ToString());
+                var responseBody = await response.Content.ReadAsStringAsync();
+                List<GetVideoUrlResponse> rep = JsonConvert.DeserializeObject<List<GetVideoUrlResponse>>(responseBody);
                 return rep[0].id;
             }
             else

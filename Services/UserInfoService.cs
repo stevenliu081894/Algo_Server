@@ -126,8 +126,8 @@ namespace AlgoServer.Services
         public static int FindPkAfterUserExerciseInfoBackup(UserExerciseInfoBackUpDto userExerciseInfoBackUpDto)
         {
             string sql = @"INSERT INTO `user_exercise_info_backup` (
-				`user_id`, `exercise_name`, `exercise_type`, `start_time`, `period`, `average_heart_beat`)
-				VALUES (@user_id,  @exercise_name,  @exercise_type,  @start_time,  @period, @average_heart_beat);
+				`user_id`, `exercise_name`, `exercise_type`, `start_time`, `period`, `average_heart_beat`, `class_name`, `calorie`, `score`)
+				VALUES (@user_id,  @exercise_name,  @exercise_type,  @start_time,  @period, @average_heart_beat, @class_name, @calorie, @score);
 
                 select @@IDENTITY;";
             try
@@ -139,6 +139,24 @@ namespace AlgoServer.Services
             {
                 LogLib.Log("[UserInfoService][FindPkAfterUserExerciseInfoBackup]" + ex.Message);
                 throw new AppException(1030, "write_db_exception");
+            }
+        }
+
+
+        public static List<UserExerciseInfoBackUpDto> GetUserExerciseInfo(string user_id)
+        {
+
+            string sql = @"SELECT * FROM `user_exercise_info_backup` WHERE `user_id` = @user_id";
+            try
+            {
+                using var conn = DapperMysql.GetWriteConntion();
+                var param = DapperMysql.GetParameters(new { user_id });
+                return conn.Query<UserExerciseInfoBackUpDto>(sql, param).AsList();
+            }
+            catch (Exception ex)
+            {
+                LogLib.Log("[UserInfoService][GetUserExerciseInfo]" + ex.Message);
+                return null;
             }
         }
         #endregion

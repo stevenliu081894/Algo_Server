@@ -21,7 +21,7 @@ namespace AlgoServer.Models.Algo
         public float REE { get; set; } = 0; // model output
         public float PAL { get; set; } = 0; // model output
         public float TDEE { get; set; } = 0; // model output
-        public List<int> BodyCondition { get; set; } // 0: 正常, 1:高血壓, 2:高血脂, 3:高血糖, 4:第一型腎臟病, 5:第一型腎臟病, 6:肌少症
+        public List<int> BodyCondition { get; set; } // 0: 正常, 1:高血壓, 2:高血脂, 3:高血糖, 4:第一型腎臟病, 5:第一型腎臟病, 6:肌少症 7.Others
         // 生化紀錄
         public float HBAIC { get; set; }
         public float FBG { get; set; }

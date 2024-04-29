@@ -20,7 +20,8 @@ namespace AlgoServer.Data.Enums
         high_blood_sugar = 3,
         type1_kidney_disease = 4,
         type2_kidney_disease = 5,
-        sarcopenia = 6
+        sarcopenia = 6,
+        others = 7
     }
 
     public enum StomachConditionEnum
@@ -66,6 +67,7 @@ namespace AlgoServer.Data.Enums
                 (int)BodyConditionEnum.type1_kidney_disease => "第一期腎臟病",
                 (int)BodyConditionEnum.type2_kidney_disease => "第二期腎臟病",
                 (int)BodyConditionEnum.sarcopenia => "肌少症",
+                (int)BodyConditionEnum.others => "其他"
             };
         }
 

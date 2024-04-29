@@ -135,9 +135,21 @@ namespace AlgoServer.Business
                 average_heart_beat = req.average_heart_beat,
                 exercise_name = req.exercise_name,
                 exercise_type = req.exercise_type,
-                period = req.period
+                period = req.period,
+                class_name = req.class_name,
+                calorie = req.calorie,
+                score = req.score
             };
             UserInfoService.FindPkAfterUserExerciseInfoBackup(userExerciseInfoBackUpDto);
+        }
+
+        public static GetExerciseInfoResponse GetExerciseInfo(GetExerciseInfoRequest req)
+        {
+            List<UserExerciseInfoBackUpDto> userExerciseInfoBackUpDtos = UserInfoService.GetUserExerciseInfo(req.user_id);
+            return new GetExerciseInfoResponse
+            {
+                userExerciseInfos = userExerciseInfoBackUpDtos
+            };
         }
     }
 }

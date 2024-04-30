@@ -145,7 +145,7 @@ namespace AlgoServer.Business
 
         public static GetExerciseInfoResponse GetExerciseInfo(GetExerciseInfoRequest req)
         {
-            List<UserExerciseInfoBackUpDto> userExerciseInfoBackUpDtos = UserInfoService.GetUserExerciseInfo(req.user_id);
+            List<UserExerciseInfoBackUpDto> userExerciseInfoBackUpDtos = UserInfoService.GetUserExerciseInfo(req.start_time, req.end_time);
             return new GetExerciseInfoResponse
             {
                 userExerciseInfos = userExerciseInfoBackUpDtos

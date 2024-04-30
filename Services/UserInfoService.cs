@@ -143,14 +143,14 @@ namespace AlgoServer.Services
         }
 
 
-        public static List<UserExerciseInfoBackUpDto> GetUserExerciseInfo(string user_id)
+        public static List<UserExerciseInfoBackUpDto> GetUserExerciseInfo(DateTime start_time, DateTime end_time)
         {
 
-            string sql = @"SELECT * FROM `user_exercise_info_backup` WHERE `user_id` = @user_id";
+            string sql = @"SELECT * FROM `user_exercise_info_backup` WHERE `start_time` >= @start_time AND `start_time` < @end_time";
             try
             {
                 using var conn = DapperMysql.GetWriteConntion();
-                var param = DapperMysql.GetParameters(new { user_id });
+                var param = DapperMysql.GetParameters(new { start_time, end_time });
                 return conn.Query<UserExerciseInfoBackUpDto>(sql, param).AsList();
             }
             catch (Exception ex)

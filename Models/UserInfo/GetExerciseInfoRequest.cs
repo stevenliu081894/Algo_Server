@@ -3,7 +3,8 @@ namespace AlgoServer.Models.UserInfo
 {
     public class GetExerciseInfoRequest
     {
-        public string user_id { get; set; }
+        public DateTime start_time { get; set; }
+        public DateTime end_time { get; set; }
     }
 }
 

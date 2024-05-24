@@ -5,6 +5,7 @@ using AlgoServer.Services;
 using AlgoServer.Models.Dto;
 using AlgoServer.Internal;
 using AlgoServer.Libs;
+using static Google.Protobuf.WellKnownTypes.Field.Types;
 
 namespace AlgoServer.Business
 {
@@ -128,6 +129,31 @@ namespace AlgoServer.Business
 
         public static void UploadExerciseInfo(UploadExerciseInfoRequest req)
         {
+
+            MemberDto member =  MemberService.Find(req.user_id);
+            if (member == null)
+            {
+                LogLib.Log("Member Not Existed");
+                throw new AppException(1040, "Member Not Existed");
+            }
+
+            // calculate average heart beat
+            if (req.average_heart_beat == null || req.average_heart_beat == 0)
+            {
+                decimal T = (decimal)req.period / 60;
+                decimal W = member.weight;
+                decimal A = DateTime.Now.Year - DateTime.Parse(member.birthday).Year;
+
+                if (member.gender == "male")
+                {
+                    req.average_heart_beat = (int)((req.calorie * (decimal)4.184 / (60 * T) + (decimal)55.0969 - (decimal)0.1988 * W - (decimal)0.2017 * A) / (decimal)0.6309);
+                }
+                else
+                {
+                    req.average_heart_beat = (int)((req.calorie * (decimal)4.4184 / (60 * T) + (decimal)20.4022 - (decimal)0.1263 * W - (decimal)0.074 * A) / (decimal)0.4472);
+                }
+                
+            }
             UserExerciseInfoBackUpDto userExerciseInfoBackUpDto = new UserExerciseInfoBackUpDto
             {
                 user_id = req.user_id,

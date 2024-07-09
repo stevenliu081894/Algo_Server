@@ -23,7 +23,8 @@ namespace AlgoServer.Business
 				birthday = req.birthday,
 				weight = req.weight,
 				height = req.height,
-				register_time = DateTime.Now,
+                member_type = req.member_type,
+                register_time = DateTime.Now,
 				email = req.email,
 				phone = req.phone
             };
@@ -50,7 +51,7 @@ namespace AlgoServer.Business
                 {
                     login_type = 1,
                     FitGame_member_id = req.id,
-                    FitGame_member_type = "JUBO",
+                    FitGame_member_type = req.member_type,
                     name = req.display_name,
                     password = req.phone.Substring(req.phone.Length - 6),
                     account = req.phone

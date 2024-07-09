@@ -64,8 +64,8 @@ namespace AlgoServer.Services
         public static int FindPkAfterInsert(MemberDto source)
         {
             string sql = @"INSERT INTO `member` (
-				`id`, `display_name`, `gender`, `birthday`, `identity_number`, `weight`, `height`, `email`, `phone`, `register_time`)
-				VALUES (@id, @display_name, @gender,  @birthday,  @identity_number,  @weight,  @height, @email, @phone, @register_time);
+				`id`, `display_name`, `gender`, `birthday`, `identity_number`, `weight`, `height`, `email`, `phone`, `member_type`, `register_time`)
+				VALUES (@id, @display_name, @gender,  @birthday,  @identity_number,  @weight,  @height, @email, @phone, @member_type ,@register_time);
 
                 select @@IDENTITY;";
             try

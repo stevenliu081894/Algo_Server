@@ -189,14 +189,15 @@ namespace AlgoServer.Business
                 period = req.period,
                 class_name = req.class_name,
                 calorie = req.calorie,
-                score = req.score
+                score = req.score,
+                upload_time = DateTime.Now
             };
             UserInfoService.FindPkAfterUserExerciseInfoBackup(userExerciseInfoBackUpDto);
         }
 
         public static GetExerciseInfoResponse GetExerciseInfo(GetExerciseInfoRequest req)
         {
-            List<UserExerciseInfoBackUpDto> userExerciseInfoBackUpDtos = UserInfoService.GetUserExerciseInfo(req.start_time, req.end_time);
+            List<UserExerciseInfoBackUpDto> userExerciseInfoBackUpDtos = UserInfoService.GetUserExerciseInfo(req.start_time, req.end_time, req.member_type);
             return new GetExerciseInfoResponse
             {
                 userExerciseInfos = userExerciseInfoBackUpDtos

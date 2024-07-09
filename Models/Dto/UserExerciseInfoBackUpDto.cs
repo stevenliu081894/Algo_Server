@@ -14,6 +14,7 @@ namespace AlgoServer.Models.Dto
         public int average_heart_beat { get; set; }
         public decimal calorie { get; set; }
         public decimal score { get; set; }
+        public DateTime upload_time { get; set; }
     }
 }
 

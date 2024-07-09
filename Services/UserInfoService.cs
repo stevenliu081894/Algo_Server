@@ -126,8 +126,8 @@ namespace AlgoServer.Services
         public static int FindPkAfterUserExerciseInfoBackup(UserExerciseInfoBackUpDto userExerciseInfoBackUpDto)
         {
             string sql = @"INSERT INTO `user_exercise_info_backup` (
-				`user_id`, `exercise_name`, `exercise_type`, `start_time`, `period`, `average_heart_beat`, `class_name`, `calorie`, `score`)
-				VALUES (@user_id,  @exercise_name,  @exercise_type,  @start_time,  @period, @average_heart_beat, @class_name, @calorie, @score);
+				`user_id`, `exercise_name`, `exercise_type`, `start_time`, `period`, `average_heart_beat`, `class_name`, `calorie`, `score`, `upload_time`)
+				VALUES (@user_id,  @exercise_name,  @exercise_type,  @start_time,  @period, @average_heart_beat, @class_name, @calorie, @score, @upload_time);
 
                 select @@IDENTITY;";
             try
@@ -143,14 +143,19 @@ namespace AlgoServer.Services
         }
 
 
-        public static List<UserExerciseInfoBackUpDto> GetUserExerciseInfo(DateTime start_time, DateTime end_time)
+        public static List<UserExerciseInfoBackUpDto> GetUserExerciseInfo(DateTime start_time, DateTime end_time, string member_type)
         {
 
-            string sql = @"SELECT * FROM `user_exercise_info_backup` WHERE `start_time` >= @start_time AND `start_time` < @end_time";
+            string sql = @"SELECT * 
+                            FROM user_exercise_info_backup ueib
+                            JOIN member m ON ueib.user_id = m.id
+                            WHERE ueib.start_time >= @start_time 
+                            AND ueib.start_time < @end_time 
+                            AND m.member_type = @member_type";
             try
             {
                 using var conn = DapperMysql.GetWriteConntion();
-                var param = DapperMysql.GetParameters(new { start_time, end_time });
+                var param = DapperMysql.GetParameters(new { start_time, end_time, member_type});
                 return conn.Query<UserExerciseInfoBackUpDto>(sql, param).AsList();
             }
             catch (Exception ex)

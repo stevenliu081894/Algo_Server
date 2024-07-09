@@ -15,5 +15,6 @@ namespace Models.Dto
         public DateTime register_time { get; set; }
         public string email { get; set; } = "";
         public string phone { get; set; } = "";
+        public string member_type { get; set; } = "JUBO";
     }
 }

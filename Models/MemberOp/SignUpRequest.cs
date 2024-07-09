@@ -13,6 +13,7 @@ namespace AlgoServer.Models.MemberOp
         public decimal weight { get; set; } = 0;
         public string email { get; set; } = "";
         public string phone { get; set; } = "";
+        public string member_type { get; set; } = "JUBO";
     }
 }
 

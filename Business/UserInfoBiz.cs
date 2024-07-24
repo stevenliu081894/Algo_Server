@@ -158,13 +158,21 @@ namespace AlgoServer.Business
                     
                 }
                 decimal A;
-                if (member.birthday == null)
+
+                try
+                {
+                    if (member.birthday == null)
+                    {
+                        A = 60;
+                    }
+                    else
+                    {
+                        A = DateTime.Now.Year - DateTime.Parse(member.birthday).Year;
+                    }
+                }
+                catch
                 {
                     A = 60;
-                }
-                else
-                {
-                    A = DateTime.Now.Year - DateTime.Parse(member.birthday).Year;
                 }
 
                 

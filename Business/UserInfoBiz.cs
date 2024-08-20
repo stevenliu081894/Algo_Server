@@ -185,7 +185,10 @@ namespace AlgoServer.Business
                 {
                     req.average_heart_beat = (int)((req.calorie * (decimal)4.4184 / (60 * T) + (decimal)20.4022 - (decimal)0.1263 * W - (decimal)0.074 * A) / (decimal)0.4472) + 20;
                 }
-                
+            }
+            else
+            {
+                req.period = req.period / 60;
             }
             UserExerciseInfoBackUpDto userExerciseInfoBackUpDto = new UserExerciseInfoBackUpDto
             {
